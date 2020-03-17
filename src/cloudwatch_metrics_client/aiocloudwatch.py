@@ -6,6 +6,7 @@ import math
 from collections import OrderedDict
 from typing import Union
 from contextlib import contextmanager
+import time
 
 # Support for 3.6, for now add dependency manually
 try:
@@ -73,7 +74,7 @@ class CloudWatchAsyncMetrics:
 
         try:
             if metric_data.get('Timestamp') is None:
-                metric_data['Timestamp'] = datetime.datetime.now()
+                metric_data['Timestamp'] = time.time()
             cls.setup_client()
             return await cls.client.put_metric_data(
                 Namespace=cls.namespace,
@@ -272,7 +273,7 @@ class Metric:
     def to_repr(self) -> dict:
         data = {
             'MetricName': self.name,
-            'Timestamp': datetime.datetime.now(),
+            'Timestamp': time.time(),
             'Value': self.value
         }
         dimensions = self.dimensions.to_repr()
