@@ -4,7 +4,7 @@ import logging
 import math
 import threading
 from contextlib import contextmanager
-
+import time
 import boto3
 
 from cloudwatch_metrics_client.aiocloudwatch import CloudWatchAsyncMetrics, Metric, MetricSeries, StatisticSeries
@@ -39,7 +39,7 @@ class CloudWatchSyncMetrics(CloudWatchAsyncMetrics):
 
         try:
             if metric_data.get('Timestamp') is None:
-                metric_data['Timestamp'] = datetime.datetime.now()
+                metric_data['Timestamp'] = time.time()
             cls.setup_client()
             return cls.client.put_metric_data(
                 Namespace=cls.namespace,
