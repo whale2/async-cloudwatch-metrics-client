@@ -39,7 +39,7 @@ class CloudWatchSyncMetrics(CloudWatchAsyncMetrics):
 
         try:
             if metric_data.get('Timestamp') is None:
-                metric_data['Timestamp'] = datetime.datetime.now()
+                metric_data['Timestamp'] = datetime.datetime.utcnow()
             cls.setup_client()
             return cls.client.put_metric_data(
                 Namespace=cls.namespace,
